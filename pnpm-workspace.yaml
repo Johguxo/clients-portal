@@ -1,0 +1,5 @@
+# pnpm 11 usa este archivo como hogar de la configuración del proyecto.
+# No declaramos `packages:` — no es un monorepo de múltiples paquetes;
+# la app Next.js vive en la raíz. Solo autorizamos el build nativo que necesita.
+allowBuilds:
+  unrs-resolver: true

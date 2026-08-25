@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/*
+  Órbita — Design tokens
+  Paleta inspirada en Galileo Studio: acento azul eléctrico + índigo,
+  sobre un lienzo claro y limpio pensado para un portal de datos que
+  debe transmitir transparencia y orden.
+*/
+
+:root {
+  /* Neutrals (canvas + ink) */
+  --background: #f7f8fa;
+  --surface: #ffffff;
+  --surface-muted: #f1f3f7;
+  --border: #e4e7ec;
+  --border-strong: #d0d5dd;
+
+  --foreground: #0f1115;
+  --muted-foreground: #5a6272;
+  --subtle-foreground: #8a92a3;
+
+  /* Brand accent (Galileo blue / indigo) */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-foreground: #ffffff;
+  --primary-soft: #e8efff;
+  --ring: #2563eb;
+
+  /* Status — ticket lifecycle */
+  --status-open: #2563eb;        /* Abierto */
+  --status-open-soft: #e8efff;
+  --status-progress: #b45309;    /* En progreso */
+  --status-progress-soft: #fef3c7;
+  --status-waiting: #7c3aed;     /* Esperando cliente */
+  --status-waiting-soft: #f3e8ff;
+  --status-resolved: #047857;    /* Resuelto */
+  --status-resolved-soft: #d1fae5;
+  --status-closed: #667085;      /* Cerrado */
+  --status-closed-soft: #eceff3;
+
+  /* Priority */
+  --priority-low: #667085;
+  --priority-medium: #2563eb;
+  --priority-high: #d97706;
+  --priority-urgent: #dc2626;
+  --priority-urgent-soft: #fee2e2;
+
+  /* Type */
+  --type-incident: #dc2626;
+  --type-question: #2563eb;
+  --type-request: #7c3aed;
+
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-ring: var(--ring);
+
+  --color-status-open: var(--status-open);
+  --color-status-open-soft: var(--status-open-soft);
+  --color-status-progress: var(--status-progress);
+  --color-status-progress-soft: var(--status-progress-soft);
+  --color-status-waiting: var(--status-waiting);
+  --color-status-waiting-soft: var(--status-waiting-soft);
+  --color-status-resolved: var(--status-resolved);
+  --color-status-resolved-soft: var(--status-resolved-soft);
+  --color-status-closed: var(--status-closed);
+  --color-status-closed-soft: var(--status-closed-soft);
+
+  --color-priority-low: var(--priority-low);
+  --color-priority-medium: var(--priority-medium);
+  --color-priority-high: var(--priority-high);
+  --color-priority-urgent: var(--priority-urgent);
+  --color-priority-urgent-soft: var(--priority-urgent-soft);
+
+  --color-type-incident: var(--type-incident);
+  --color-type-question: var(--type-question);
+  --color-type-request: var(--type-request);
+
+  --radius: var(--radius);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle, consistent focus ring across interactive elements */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
