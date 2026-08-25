@@ -2,53 +2,59 @@
 
 /*
   Órbita — Design tokens
-  Paleta inspirada en Galileo Studio: acento azul eléctrico + índigo,
-  sobre un lienzo claro y limpio pensado para un portal de datos que
-  debe transmitir transparencia y orden.
+  Paleta derivada del branding real de Galileo Studio (galileostudio.ai):
+    · Fuente Geist (la misma que usa su web).
+    · Acento de marca teal #09c6b8 y tinta profunda #07131b.
+    · Acentos secundarios violeta / azul / ámbar de su sistema.
+  Adaptado a un lienzo claro (mejor para un portal de datos) manteniendo su
+  identidad cromática. Ver DESIGN.md para el mapeo completo.
 */
 
 :root {
   /* Neutrals (canvas + ink) */
-  --background: #f7f8fa;
+  --background: #f4f7fb;        /* fondo claro de galileostudio.ai */
   --surface: #ffffff;
-  --surface-muted: #f1f3f7;
-  --border: #e4e7ec;
-  --border-strong: #d0d5dd;
+  --surface-muted: #eef2f7;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
 
-  --foreground: #0f1115;
-  --muted-foreground: #5a6272;
-  --subtle-foreground: #8a92a3;
+  --foreground: #07131b;        /* tinta: navy profundo de Galileo */
+  --muted-foreground: #52606d;
+  --subtle-foreground: #8794a1;
 
-  /* Brand accent (Galileo blue / indigo) */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
+  /* Brand accent (teal de Galileo) */
+  --primary: #0a7d73;           /* teal accesible sobre claro (deriva de #09c6b8) */
+  --primary-hover: #086a61;
   --primary-foreground: #ffffff;
-  --primary-soft: #e8efff;
-  --ring: #2563eb;
+  --primary-soft: #d5f2ee;
+  --accent-bright: #09c6b8;     /* teal exacto de Galileo (marca / decorativo) */
+  --accent-violet: #8d54ff;     /* violeta secundario de Galileo */
+  --ring: #0a7d73;
 
-  /* Status — ticket lifecycle */
-  --status-open: #2563eb;        /* Abierto */
-  --status-open-soft: #e8efff;
-  --status-progress: #b45309;    /* En progreso */
-  --status-progress-soft: #fef3c7;
-  --status-waiting: #7c3aed;     /* Esperando cliente */
-  --status-waiting-soft: #f3e8ff;
-  --status-resolved: #047857;    /* Resuelto */
-  --status-resolved-soft: #d1fae5;
-  --status-closed: #667085;      /* Cerrado */
-  --status-closed-soft: #eceff3;
+  /* Status — ciclo de vida del ticket */
+  --status-open: #2f74e0;             /* azul Galileo #3080ff */
+  --status-open-soft: #e7f0fe;
+  --status-progress: #b06a00;         /* ámbar Galileo #fcbb00 / #ff8b1a */
+  --status-progress-soft: #fdecc8;
+  --status-waiting: #7a3cf0;          /* violeta Galileo #8d54ff */
+  --status-waiting-soft: #efe6ff;
+  --status-resolved: #0a8f6f;         /* verde (mint #8aceb3) */
+  --status-resolved-soft: #d6f3e8;
+  --status-closed: #5b6672;
+  --status-closed-soft: #eaeef2;
 
   /* Priority */
-  --priority-low: #667085;
-  --priority-medium: #2563eb;
-  --priority-high: #d97706;
-  --priority-urgent: #dc2626;
-  --priority-urgent-soft: #fee2e2;
+  --priority-low: #5b6672;
+  --priority-medium: #0a7d73;
+  --priority-high: #c2650e;           /* naranja Galileo #ff8b1a */
+  --priority-high-soft: #fdecd9;
+  --priority-urgent: #e5484d;         /* rojo Galileo #fb2c36 */
+  --priority-urgent-soft: #fde7e7;
 
   /* Type */
-  --type-incident: #dc2626;
-  --type-question: #2563eb;
-  --type-request: #7c3aed;
+  --type-incident: #e5484d;
+  --type-question: #2f74e0;
+  --type-request: #7a3cf0;
 
   --radius: 0.75rem;
   --radius-sm: 0.5rem;
@@ -70,6 +76,8 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-violet: var(--accent-violet);
   --color-ring: var(--ring);
 
   --color-status-open: var(--status-open);
@@ -86,6 +94,7 @@
   --color-priority-low: var(--priority-low);
   --color-priority-medium: var(--priority-medium);
   --color-priority-high: var(--priority-high);
+  --color-priority-high-soft: var(--priority-high-soft);
   --color-priority-urgent: var(--priority-urgent);
   --color-priority-urgent-soft: var(--priority-urgent-soft);
 

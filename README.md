@@ -55,6 +55,12 @@ Contraseña para todos: **`demo1234`**
 > Postgres: un cliente solo ve los datos de su organización; un agente los ve
 > todos. No depende del código de la aplicación.
 
+## Diseño
+
+La interfaz se basa en el branding real de Galileo Studio (fuente Geist, acento
+teal, tinta navy) adaptado a un lienzo claro para uso de portal. El detalle de
+qué se extrajo de su web y cómo se mapea está en [DESIGN.md](./DESIGN.md).
+
 ## Documento de decisiones
 
 Ver [DECISIONS.md](./DECISIONS.md).

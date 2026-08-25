@@ -60,7 +60,7 @@ export const PRIORITY_META: Record<TicketPriority, Meta> = {
   },
   high: {
     label: "Alta",
-    className: "bg-amber-50 text-priority-high",
+    className: "bg-priority-high-soft text-priority-high",
     dot: "bg-priority-high",
   },
   urgent: {

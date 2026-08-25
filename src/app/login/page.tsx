@@ -13,7 +13,7 @@ export default function LoginPage() {
           className="pointer-events-none absolute inset-0 opacity-[0.15]"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 30% 20%, var(--color-primary) 0%, transparent 45%), radial-gradient(circle at 80% 70%, #7c3aed 0%, transparent 40%)",
+              "radial-gradient(circle at 30% 20%, var(--color-accent-bright) 0%, transparent 45%), radial-gradient(circle at 80% 70%, var(--color-accent-violet) 0%, transparent 40%)",
           }}
         />
         <div className="relative">
