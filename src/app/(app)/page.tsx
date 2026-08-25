@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { requireSession } from "@/lib/auth";
 import { listTickets, type TicketListItem } from "@/lib/tickets";
-import { isActiveStatus } from "@/lib/domain";
+import { awaitingParty, isActiveStatus } from "@/lib/domain";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { TicketRow } from "@/components/tickets/ticket-row";
 
@@ -44,7 +44,12 @@ function Section({
         ) : (
           <div className="divide-y divide-border">
             {tickets.map((t) => (
-              <TicketRow key={t.id} ticket={t} showOrg={showOrg} />
+              <TicketRow
+                key={t.id}
+                ticket={t}
+                showOrg={showOrg}
+                viewerIsAgent={showOrg}
+              />
             ))}
           </div>
         )}
@@ -97,7 +102,7 @@ function ClientDashboard({
   active: TicketListItem[];
   recent: TicketListItem[];
 }) {
-  const waiting = all.filter((t) => t.status === "waiting_client");
+  const waiting = active.filter((t) => awaitingParty(t) === "client");
   const resolved = all.filter(
     (t) => t.status === "resolved" || t.status === "closed",
   );
@@ -110,7 +115,7 @@ function ClientDashboard({
           label="Esperan tu respuesta"
           value={waiting.length}
           accent="waiting"
-          href="/tickets?status=waiting_client"
+          href="/tickets?pending=me"
         />
         <StatCard label="Resueltos" value={resolved.length} accent="resolved" />
       </div>
@@ -118,6 +123,7 @@ function ClientDashboard({
       <Section
         title="Necesitan tu respuesta"
         hint="El equipo está esperando información tuya para avanzar."
+        href="/tickets?pending=me"
         tickets={waiting}
         showOrg={false}
         empty="Nada pendiente por tu parte. 🎉"
@@ -147,17 +153,31 @@ function AgentDashboard({
 }) {
   const unassigned = active.filter((t) => !t.assigned_to);
   const urgent = active.filter((t) => t.priority === "urgent");
-  const waitingClient = all.filter((t) => t.status === "waiting_client");
+  const unanswered = active.filter((t) => awaitingParty(t) === "agent");
   const mine = active.filter((t) => t.assigned_to === userId);
 
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          label="Sin responder"
+          value={unanswered.length}
+          accent="urgent"
+          href="/tickets?pending=me"
+        />
         <StatCard label="Sin asignar" value={unassigned.length} accent="primary" />
-        <StatCard label="Urgentes activos" value={urgent.length} accent="urgent" />
         <StatCard label="Asignados a mí" value={mine.length} href="/tickets?assigned=me" />
-        <StatCard label="Esperando cliente" value={waitingClient.length} accent="waiting" />
+        <StatCard label="Urgentes activos" value={urgent.length} accent="urgent" />
       </div>
+
+      <Section
+        title="Sin responder"
+        hint="El cliente escribió lo último y espera al equipo."
+        href="/tickets?pending=me"
+        tickets={unanswered}
+        showOrg
+        empty="Ningún cliente esperando respuesta. 🎉"
+      />
 
       <Section
         title="Sin asignar"

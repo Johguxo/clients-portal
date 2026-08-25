@@ -35,3 +35,6 @@ yarn-error.log*
 .vscode/*
 !.vscode/extensions.json
 *.pdf
+
+# typescript build info
+tsconfig.tsbuildinfo

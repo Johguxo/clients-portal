@@ -8,7 +8,13 @@ import {
   getTimeline,
   listAgents,
 } from "@/lib/tickets";
-import { StatusBadge, PriorityBadge, TypeLabel } from "@/components/ui/badge";
+import {
+  StatusBadge,
+  PriorityBadge,
+  TypeLabel,
+  AwaitingBadge,
+} from "@/components/ui/badge";
+import { awaitingParty } from "@/lib/domain";
 import { Avatar } from "@/components/ui/avatar";
 import { Timeline } from "@/components/tickets/timeline";
 import { MessageThread } from "@/components/tickets/message-thread";
@@ -77,6 +83,10 @@ export default async function TicketDetailPage({
           </h1>
         </div>
         <div className="flex items-center gap-2">
+          <AwaitingBadge
+            party={awaitingParty(ticket)}
+            viewerIsAgent={session.isAgent}
+          />
           <PriorityBadge priority={ticket.priority} />
           <StatusBadge status={ticket.status} />
         </div>

@@ -123,7 +123,7 @@ insert into public.tickets (
   ('10000000-0000-0000-0000-000000000002', 'a0000000-0000-0000-0000-000000000001',
    'Solicitud: nuevo usuario para el equipo de soporte',
    '¿Podríais dar de alta a una compañera nueva con permisos de solo lectura?',
-   'request', 'medium', 'waiting_client',
+   'request', 'medium', 'in_progress',
    '44444444-4444-4444-4444-444444444444', '22222222-2222-2222-2222-222222222222',
    now() - interval '5 days', now() - interval '1 day', now() - interval '1 day'),
 
@@ -152,7 +152,7 @@ insert into public.tickets (
   ('10000000-0000-0000-0000-000000000005', 'a0000000-0000-0000-0000-000000000002',
    'Error intermitente al guardar cambios',
    'A veces al guardar sale un error y se pierde lo escrito. No siempre pasa.',
-   'incident', 'high', 'waiting_client',
+   'incident', 'high', 'in_progress',
    '55555555-5555-5555-5555-555555555555', '11111111-1111-1111-1111-111111111111',
    now() - interval '6 days', now() - interval '2 days', now() - interval '2 days');
 
@@ -190,7 +190,7 @@ insert into public.ticket_events (ticket_id, actor_id, type, from_value, to_valu
   ('10000000-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111', 'status_changed', 'open', 'in_progress', now() - interval '1 day'),
 
   ('10000000-0000-0000-0000-000000000002', '44444444-4444-4444-4444-444444444444', 'created', null, 'open',            now() - interval '5 days'),
-  ('10000000-0000-0000-0000-000000000002', '22222222-2222-2222-2222-222222222222', 'status_changed', 'open', 'waiting_client', now() - interval '1 day'),
+  ('10000000-0000-0000-0000-000000000002', '22222222-2222-2222-2222-222222222222', 'status_changed', 'open', 'in_progress', now() - interval '1 day'),
 
   ('10000000-0000-0000-0000-000000000003', '33333333-3333-3333-3333-333333333333', 'created', null, 'open',            now() - interval '8 days'),
   ('10000000-0000-0000-0000-000000000003', '22222222-2222-2222-2222-222222222222', 'status_changed', 'open', 'resolved', now() - interval '6 days'),
@@ -198,7 +198,7 @@ insert into public.ticket_events (ticket_id, actor_id, type, from_value, to_valu
   ('10000000-0000-0000-0000-000000000004', '55555555-5555-5555-5555-555555555555', 'created', null, 'open',            now() - interval '3 hours'),
 
   ('10000000-0000-0000-0000-000000000005', '55555555-5555-5555-5555-555555555555', 'created', null, 'open',            now() - interval '6 days'),
-  ('10000000-0000-0000-0000-000000000005', '11111111-1111-1111-1111-111111111111', 'status_changed', 'open', 'waiting_client', now() - interval '2 days'),
+  ('10000000-0000-0000-0000-000000000005', '11111111-1111-1111-1111-111111111111', 'status_changed', 'open', 'in_progress', now() - interval '2 days'),
 
   ('10000000-0000-0000-0000-000000000006', '44444444-4444-4444-4444-444444444444', 'created', null, 'open',            now() - interval '20 days'),
   ('10000000-0000-0000-0000-000000000006', '11111111-1111-1111-1111-111111111111', 'status_changed', 'open', 'resolved', now() - interval '15 days'),
@@ -209,3 +209,16 @@ alter table public.tickets enable trigger tickets_log_insert;
 alter table public.tickets enable trigger tickets_log_update;
 alter table public.tickets enable trigger tickets_touch;
 alter table public.ticket_messages enable trigger ticket_messages_touch;
+
+-- last_reply_by: como los triggers estaban desactivados durante el seed, lo
+-- calculamos a partir del último mensaje de cada ticket (impulsa el indicador
+-- derivado "de quién es la pelota").
+update public.tickets t
+set last_reply_by = sub.role
+from (
+  select distinct on (m.ticket_id) m.ticket_id, p.role
+  from public.ticket_messages m
+  join public.profiles p on p.id = m.author_id
+  order by m.ticket_id, m.created_at desc
+) sub
+where sub.ticket_id = t.id;

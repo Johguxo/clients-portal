@@ -30,11 +30,6 @@ export const STATUS_META: Record<TicketStatus, Meta> = {
     className: "bg-status-progress-soft text-status-progress",
     dot: "bg-status-progress",
   },
-  waiting_client: {
-    label: "Esperando respuesta",
-    className: "bg-status-waiting-soft text-status-waiting",
-    dot: "bg-status-waiting",
-  },
   resolved: {
     label: "Resuelto",
     className: "bg-status-resolved-soft text-status-resolved",
@@ -81,7 +76,6 @@ export const TYPE_META: Record<TicketType, { label: string; className: string }>
 export const STATUS_ORDER: TicketStatus[] = [
   "open",
   "in_progress",
-  "waiting_client",
   "resolved",
   "closed",
 ];
@@ -94,14 +88,23 @@ export const PRIORITY_ORDER: TicketPriority[] = [
 ];
 
 /** Un estado se considera "activo" (pendiente) si no está resuelto ni cerrado. */
-export const ACTIVE_STATUSES: TicketStatus[] = [
-  "open",
-  "in_progress",
-  "waiting_client",
-];
+export const ACTIVE_STATUSES: TicketStatus[] = ["open", "in_progress"];
 
 export function isActiveStatus(status: TicketStatus): boolean {
   return ACTIVE_STATUSES.includes(status);
+}
+
+// "De quién es la pelota" — derivado del último mensaje, no un estado manual.
+// - Si el último en responder fue el staff  -> esperamos al cliente.
+// - Si respondió el cliente (o aún nadie)    -> la pelota es del staff.
+export type AwaitingParty = "client" | "agent";
+
+export function awaitingParty(ticket: {
+  status: TicketStatus;
+  last_reply_by: UserRole | null;
+}): AwaitingParty | null {
+  if (!isActiveStatus(ticket.status)) return null;
+  return ticket.last_reply_by === "agent" ? "client" : "agent";
 }
 
 /** Iniciales para el avatar a partir del nombre. */

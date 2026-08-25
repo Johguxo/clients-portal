@@ -14,6 +14,7 @@ type SearchParams = {
   type?: string;
   q?: string;
   assigned?: string;
+  pending?: string;
 };
 
 export default async function TicketsPage({
@@ -30,11 +31,13 @@ export default async function TicketsPage({
     type: (sp.type as TicketType) || undefined,
     q: sp.q || undefined,
     assignedToMe: session.isAgent && sp.assigned === "me",
+    pendingForViewer: sp.pending === "me",
+    viewerIsAgent: session.isAgent,
   };
 
   const tickets = await listTickets(filters, session.userId);
   const hasFilters = Boolean(
-    sp.status || sp.priority || sp.type || sp.q || sp.assigned,
+    sp.status || sp.priority || sp.type || sp.q || sp.assigned || sp.pending,
   );
 
   return (
@@ -83,6 +86,7 @@ export default async function TicketsPage({
                 key={t.id}
                 ticket={t}
                 showOrg={session.isAgent}
+                viewerIsAgent={session.isAgent}
               />
             ))}
           </div>

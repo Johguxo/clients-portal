@@ -3,6 +3,7 @@ import type {
   TicketPriority,
   TicketStatus,
   TicketType,
+  UserRole,
 } from "./domain";
 
 export type TicketFilters = {
@@ -11,12 +12,15 @@ export type TicketFilters = {
   type?: TicketType;
   q?: string;
   assignedToMe?: boolean;
+  /** Solo tickets activos donde la pelota es del que mira (pendiente de responder). */
+  pendingForViewer?: boolean;
+  viewerIsAgent?: boolean;
 };
 
 // Fila de listado enriquecida con nombres relacionados y conteo de mensajes.
 const LIST_SELECT = `
   id, number, subject, type, priority, status, organization_id,
-  created_at, last_activity_at, assigned_to,
+  created_at, last_activity_at, assigned_to, last_reply_by,
   organization:organizations(name),
   assignee:profiles!tickets_assigned_to_fkey(full_name),
   author:profiles!tickets_created_by_fkey(full_name),
@@ -34,6 +38,7 @@ export type TicketListItem = {
   created_at: string;
   last_activity_at: string;
   assigned_to: string | null;
+  last_reply_by: UserRole | null;
   organization: { name: string } | null;
   assignee: { full_name: string | null } | null;
   author: { full_name: string | null } | null;
@@ -54,6 +59,16 @@ export async function listTickets(
   if (filters.priority) query = query.eq("priority", filters.priority);
   if (filters.type) query = query.eq("type", filters.type);
   if (filters.assignedToMe) query = query.eq("assigned_to", currentUserId);
+  if (filters.pendingForViewer) {
+    query = query.in("status", ["open", "in_progress"]);
+    if (filters.viewerIsAgent) {
+      // Al staff le toca cuando el cliente escribió lo último (o aún nadie).
+      query = query.or("last_reply_by.eq.client,last_reply_by.is.null");
+    } else {
+      // Al cliente le toca cuando el staff escribió lo último.
+      query = query.eq("last_reply_by", "agent");
+    }
+  }
   if (filters.q) {
     const term = `%${filters.q}%`;
     query = query.or(`subject.ilike.${term},description.ilike.${term}`);
@@ -82,6 +97,7 @@ export type TicketDetail = {
   organization_id: string;
   created_by: string | null;
   assigned_to: string | null;
+  last_reply_by: UserRole | null;
   created_at: string;
   updated_at: string;
   last_activity_at: string;

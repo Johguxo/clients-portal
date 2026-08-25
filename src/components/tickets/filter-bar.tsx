@@ -27,6 +27,7 @@ export function FilterBar({ isAgent }: { isAgent: boolean }) {
   }
 
   const assignedToMe = params.get("assigned") === "me";
+  const pendingMine = params.get("pending") === "me";
 
   return (
     <div
@@ -86,6 +87,19 @@ export function FilterBar({ isAgent }: { isAgent: boolean }) {
           </option>
         ))}
       </select>
+
+      <button
+        type="button"
+        onClick={() => setParam("pending", pendingMine ? "" : "me")}
+        className={cn(
+          "rounded-lg border px-3 py-2 text-sm font-medium transition",
+          pendingMine
+            ? "border-primary bg-primary-soft text-primary"
+            : "border-border bg-surface text-muted-foreground hover:text-foreground",
+        )}
+      >
+        {isAgent ? "Sin responder" : "Esperan mi respuesta"}
+      </button>
 
       {isAgent && (
         <button

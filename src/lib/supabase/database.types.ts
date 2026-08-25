@@ -159,6 +159,7 @@ export type Database = {
           description: string | null
           id: string
           last_activity_at: string
+          last_reply_by: Database["public"]["Enums"]["user_role"] | null
           number: number
           organization_id: string
           priority: Database["public"]["Enums"]["ticket_priority"]
@@ -174,6 +175,7 @@ export type Database = {
           description?: string | null
           id?: string
           last_activity_at?: string
+          last_reply_by?: Database["public"]["Enums"]["user_role"] | null
           number?: never
           organization_id: string
           priority?: Database["public"]["Enums"]["ticket_priority"]
@@ -189,6 +191,7 @@ export type Database = {
           description?: string | null
           id?: string
           last_activity_at?: string
+          last_reply_by?: Database["public"]["Enums"]["user_role"] | null
           number?: never
           organization_id?: string
           priority?: Database["public"]["Enums"]["ticket_priority"]
@@ -237,12 +240,7 @@ export type Database = {
         | "assigned"
         | "reopened"
       ticket_priority: "low" | "medium" | "high" | "urgent"
-      ticket_status:
-        | "open"
-        | "in_progress"
-        | "waiting_client"
-        | "resolved"
-        | "closed"
+      ticket_status: "open" | "in_progress" | "resolved" | "closed"
       ticket_type: "incident" | "question" | "request"
       user_role: "client" | "agent"
     }
@@ -380,13 +378,7 @@ export const Constants = {
         "reopened",
       ],
       ticket_priority: ["low", "medium", "high", "urgent"],
-      ticket_status: [
-        "open",
-        "in_progress",
-        "waiting_client",
-        "resolved",
-        "closed",
-      ],
+      ticket_status: ["open", "in_progress", "resolved", "closed"],
       ticket_type: ["incident", "question", "request"],
       user_role: ["client", "agent"],
     },

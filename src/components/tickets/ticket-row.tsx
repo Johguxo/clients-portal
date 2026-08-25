@@ -1,16 +1,25 @@
 import Link from "next/link";
-import { StatusBadge, PriorityBadge, TypeLabel } from "@/components/ui/badge";
+import {
+  StatusBadge,
+  PriorityBadge,
+  TypeLabel,
+  AwaitingBadge,
+} from "@/components/ui/badge";
 import { timeAgo } from "@/lib/format";
+import { awaitingParty } from "@/lib/domain";
 import type { TicketListItem } from "@/lib/tickets";
 
 export function TicketRow({
   ticket,
   showOrg,
+  viewerIsAgent,
 }: {
   ticket: TicketListItem;
   showOrg: boolean;
+  viewerIsAgent: boolean;
 }) {
   const messageCount = ticket.messages?.[0]?.count ?? 0;
+  const awaiting = awaitingParty(ticket);
 
   return (
     <Link
@@ -55,6 +64,7 @@ export function TicketRow({
       </div>
 
       <div className="flex shrink-0 items-center gap-2">
+        <AwaitingBadge party={awaiting} viewerIsAgent={viewerIsAgent} />
         <PriorityBadge priority={ticket.priority} />
         <StatusBadge status={ticket.status} />
       </div>

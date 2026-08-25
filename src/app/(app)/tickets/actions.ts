@@ -11,7 +11,6 @@ const PRIORITIES: TicketPriority[] = ["low", "medium", "high", "urgent"];
 const STATUSES: TicketStatus[] = [
   "open",
   "in_progress",
-  "waiting_client",
   "resolved",
   "closed",
 ];
@@ -79,7 +78,8 @@ export async function postMessage(formData: FormData): Promise<void> {
     body,
   });
 
-  // Al responder, un agente pasa el ticket a "en progreso" si estaba abierto.
+  // "De quién es la pelota" se deriva del último mensaje (last_reply_by, vía
+  // trigger). El estado solo avanza cuando el staff atiende un ticket abierto.
   if (session.isAgent) {
     await supabase
       .from("tickets")
