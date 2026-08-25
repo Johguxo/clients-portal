@@ -1,4 +1,5 @@
 import { createBrowserClient } from "@supabase/ssr";
+import type { Database } from "./database.types";
 
 /**
  * Cliente de Supabase para componentes de cliente ("use client").
@@ -6,7 +7,7 @@ import { createBrowserClient } from "@supabase/ssr";
  * políticas RLS de Postgres, no en el navegador.
  */
 export function createClient() {
-  return createBrowserClient(
+  return createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
