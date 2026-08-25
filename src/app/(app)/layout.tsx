@@ -57,6 +57,23 @@ export default async function AppLayout({
 
       {/* Contenido */}
       <div className="flex-1 md:pl-64">
+        {/* Cabecera móvil (el sidebar se oculta por debajo de md) */}
+        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-surface/90 px-4 py-3 backdrop-blur md:hidden">
+          <SidebarBrand />
+          <div className="flex items-center gap-3 text-sm">
+            <a href="/tickets" className="font-medium text-muted-foreground">
+              Tickets
+            </a>
+            <form action={signOut}>
+              <button
+                type="submit"
+                className="font-medium text-muted-foreground"
+              >
+                Salir
+              </button>
+            </form>
+          </div>
+        </header>
         <main className="mx-auto max-w-5xl px-6 py-8">{children}</main>
       </div>
     </div>
