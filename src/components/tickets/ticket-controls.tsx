@@ -38,12 +38,14 @@ export function AgentControls({
   priority,
   assignedTo,
   agents,
+  currentUserId,
 }: {
   ticketId: string;
   status: TicketStatus;
   priority: TicketPriority;
   assignedTo: string | null;
   agents: Agent[];
+  currentUserId: string;
 }) {
   const [pending, startTransition] = useTransition();
 
@@ -53,6 +55,8 @@ export function AgentControls({
     for (const [k, v] of entries) fd.set(k, v);
     startTransition(() => action(fd));
   }
+
+  const assignedToMe = assignedTo === currentUserId;
 
   return (
     <div className={cn("space-y-4", pending && "opacity-70")}>
@@ -90,19 +94,43 @@ export function AgentControls({
 
       {field(
         "Asignado a",
-        <select
-          className={control}
-          value={assignedTo ?? ""}
-          disabled={pending}
-          onChange={(e) => run(assignTicket, [["assigned_to", e.target.value]])}
-        >
-          <option value="">Sin asignar</option>
-          {agents.map((a) => (
-            <option key={a.id} value={a.id}>
-              {a.full_name}
-            </option>
-          ))}
-        </select>,
+        <div className="space-y-2">
+          <select
+            className={control}
+            value={assignedTo ?? ""}
+            disabled={pending}
+            onChange={(e) => run(assignTicket, [["assigned_to", e.target.value]])}
+          >
+            <option value="">Sin asignar</option>
+            {agents.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.full_name}
+              </option>
+            ))}
+          </select>
+          {!assignedToMe ? (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={() => run(assignTicket, [["assigned_to", currentUserId]])}
+              className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-primary bg-primary-soft px-3 py-2 text-sm font-medium text-primary transition hover:bg-primary/10 disabled:opacity-60"
+            >
+              <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                <path
+                  d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+              </svg>
+              Asignarme a mí
+            </button>
+          ) : (
+            <p className="text-xs text-subtle-foreground">
+              Este ticket está asignado a ti.
+            </p>
+          )}
+        </div>,
       )}
     </div>
   );

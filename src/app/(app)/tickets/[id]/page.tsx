@@ -129,6 +129,7 @@ export default async function TicketDetailPage({
                   priority={ticket.priority}
                   assignedTo={ticket.assigned_to}
                   agents={agents}
+                  currentUserId={session.userId}
                 />
               ) : (
                 <ClientControls ticketId={ticket.id} status={ticket.status} />
