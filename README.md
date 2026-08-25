@@ -41,7 +41,19 @@ pnpm dev             # http://localhost:3000
 
 ## Usuarios de demo
 
-_(Se documentan en la Fase 1, tras el seed.)_
+Contraseña para todos: **`demo1234`**
+
+| Rol | Email | Organización |
+| --- | --- | --- |
+| Agente (staff) | `ana@orbita.dev` | — (ve todo) |
+| Agente (staff) | `bruno@orbita.dev` | — (ve todo) |
+| Cliente | `laura@acme.com` | Acme Corp |
+| Cliente | `marco@acme.com` | Acme Corp |
+| Cliente | `sofia@globex.com` | Globex |
+
+> El aislamiento entre organizaciones se aplica con **Row Level Security** en
+> Postgres: un cliente solo ve los datos de su organización; un agente los ve
+> todos. No depende del código de la aplicación.
 
 ## Documento de decisiones
 
