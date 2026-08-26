@@ -11,7 +11,7 @@ export default async function AppLayout({
   const { profile, organization, isAgent } = await requireSession();
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen overflow-x-hidden bg-background">
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col border-r border-border bg-surface md:flex">
         <div className="px-5 py-5">
@@ -56,7 +56,7 @@ export default async function AppLayout({
       </aside>
 
       {/* Contenido */}
-      <div className="flex-1 md:pl-64">
+      <div className="min-w-0 flex-1 md:pl-64">
         {/* Cabecera móvil (el sidebar se oculta por debajo de md) */}
         <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-surface/90 px-4 py-3 backdrop-blur md:hidden">
           <SidebarBrand />

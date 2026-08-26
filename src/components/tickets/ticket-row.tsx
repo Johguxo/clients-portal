@@ -24,7 +24,7 @@ export function TicketRow({
   return (
     <Link
       href={`/tickets/${ticket.id}`}
-      className="group flex items-center gap-4 px-4 py-3.5 transition hover:bg-surface-muted/60"
+      className="group flex flex-col gap-2 px-4 py-3.5 transition hover:bg-surface-muted/60 sm:flex-row sm:items-center sm:gap-4"
     >
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
@@ -63,7 +63,7 @@ export function TicketRow({
         </div>
       </div>
 
-      <div className="flex shrink-0 items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2 sm:shrink-0 sm:justify-end">
         <AwaitingBadge party={awaiting} viewerIsAgent={viewerIsAgent} />
         <PriorityBadge priority={ticket.priority} />
         <StatusBadge status={ticket.status} />

@@ -163,9 +163,9 @@ que ese salto sea de bajo coste cuando llegue, sin reescribir lo existente.
 - **Reglas por rol** repartidas entre RLS y Server Actions; consolidarlas en
   políticas más finas (p. ej. por columna) sería más robusto.
 - Sin **tiempo real**: los cambios se ven al recargar/revalidar, no en vivo.
-- **Pulido móvil fino:** el responsive está implementado y es usable, pero en
-  pantallas muy estrechas quedan detalles ásperos (badges de la fila de ticket
-  algo apretados, barra de filtros que se envuelve en varias líneas).
+- **Pulido móvil fino:** el responsive está implementado y es usable; en
+  pantallas muy estrechas queda algún detalle áspero (p. ej. la barra de filtros
+  se envuelve en varias líneas).
 
 ### No tocado (consciente)
 - Notificaciones, adjuntos, detección de duplicados, panel de administración,
