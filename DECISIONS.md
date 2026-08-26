@@ -45,6 +45,10 @@ Prioricé la **columna vertebral que sostiene esa transparencia** de punta a pun
 - **Detección de duplicados** (*"cosas que ya nos habían pedido"*). Requiere
   búsqueda/similitud con criterio; el histórico visible ya mitiga el problema. → V2.
 - **Adjuntos.** Alto valor pero no imprescindible para demostrar el flujo. → V2.
+- **Vista de tablero (Kanban) con arrastrar y soltar** (estilo Jira): columnas por
+  estado y tickets que se mueven entre ellas. Muy útil para el triage del staff;
+  se apoya en la acción de cambio de estado que ya existe. Prioricé primero el
+  listado con filtros por ser más denso en información. → V2.
 - **Panel de administración y rol `admin`.** Hoy solo hay dos roles (`client` /
   `agent`) y los agentes son homogéneos. Crear empresas y usuarios se hace por
   seed/base de datos (un trigger genera el perfil a partir de los metadatos del
@@ -114,6 +118,18 @@ Decisiones de modelo destacables:
   consultas caras al listar y ordenar.
 - Estructura por capas lista para **extraer servicios** sin reescritura.
 
+**¿Habría que separar el backend en un servicio aparte?** Por defecto **no**, y
+probablemente no haga falta en bastante tiempo: Server Actions + Supabase
+(Postgres, Auth, RLS, Realtime, Edge Functions, `pg_cron`) cubren mucho recorrido
+sin un backend a medida, y meterlo ahora sería la sobre-ingeniería que la propia
+prueba avisa de evitar. Lo extraería a un `apps/api` (Node o Python) solo ante
+señales concretas: (a) **trabajo asíncrono pesado** —notificaciones, detección de
+duplicados con embeddings, jobs programados— mejor en workers/colas; (b)
+**integraciones** externas con su propio ciclo de vida (webhooks, sync con CRM);
+(c) una **API pública** consumida por varios frontends (p. ej. una app móvil); (d)
+necesidad de **desplegar backend y frontend a ritmos distintos**. El monorepo hace
+que ese salto sea de bajo coste cuando llegue, sin reescribir lo existente.
+
 ### Seguridad
 
 - **Autenticación** con Supabase Auth; sesión en cookies vía `@supabase/ssr` y
@@ -155,5 +171,6 @@ Decisiones de modelo destacables:
    punto manual.
 2. **Notificaciones por email** en cambios de estado y nuevos mensajes.
 3. **Tiempo real** con Supabase Realtime en el hilo y el listado.
-4. **Dropdown propio** y repaso de accesibilidad.
-5. **Duplicados y SLAs**, ya con feedback real de uso.
+4. **Vista de tablero (Kanban)** con arrastrar y soltar para el staff.
+5. **Dropdown propio** y repaso de accesibilidad.
+6. **Duplicados y SLAs**, ya con feedback real de uso.
