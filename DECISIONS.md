@@ -153,6 +153,8 @@ que ese salto sea de bajo coste cuando llegue, sin reescribir lo existente.
 - Roles cliente/agente; gestión de estado, prioridad y asignación ("Asignarme a
   mí"); indicador derivado "de quién es la pelota".
 - Dashboards por rol. Diseño basado en el branding de Galileo (ver `DESIGN.md`).
+- **Diseño responsive** (mobile-first): sidebar que se colapsa en una cabecera
+  móvil, y listados, dashboard y detalle que se reordenan a una columna.
 - Datos de demo (seed) y despliegue.
 
 ### A medias / mejorable
@@ -161,6 +163,9 @@ que ese salto sea de bajo coste cuando llegue, sin reescribir lo existente.
 - **Reglas por rol** repartidas entre RLS y Server Actions; consolidarlas en
   políticas más finas (p. ej. por columna) sería más robusto.
 - Sin **tiempo real**: los cambios se ven al recargar/revalidar, no en vivo.
+- **Pulido móvil fino:** el responsive está implementado y es usable, pero en
+  pantallas muy estrechas quedan detalles ásperos (badges de la fila de ticket
+  algo apretados, barra de filtros que se envuelve en varias líneas).
 
 ### No tocado (consciente)
 - Notificaciones, adjuntos, detección de duplicados, panel de administración,
