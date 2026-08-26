@@ -11,6 +11,7 @@ export type TicketFilters = {
   priority?: TicketPriority;
   type?: TicketType;
   q?: string;
+  organizationId?: string;
   assignedToMe?: boolean;
   /** Solo tickets activos donde la pelota es del que mira (pendiente de responder). */
   pendingForViewer?: boolean;
@@ -58,6 +59,8 @@ export async function listTickets(
   if (filters.status) query = query.eq("status", filters.status);
   if (filters.priority) query = query.eq("priority", filters.priority);
   if (filters.type) query = query.eq("type", filters.type);
+  if (filters.organizationId)
+    query = query.eq("organization_id", filters.organizationId);
   if (filters.assignedToMe) query = query.eq("assigned_to", currentUserId);
   if (filters.pendingForViewer) {
     query = query.in("status", ["open", "in_progress"]);

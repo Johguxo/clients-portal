@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireSession } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
 import { listTickets, type TicketFilters } from "@/lib/tickets";
 import { FilterBar } from "@/components/tickets/filter-bar";
 import { TicketRow } from "@/components/tickets/ticket-row";
@@ -15,6 +16,7 @@ type SearchParams = {
   q?: string;
   assigned?: string;
   pending?: string;
+  org?: string;
 };
 
 export default async function TicketsPage({
@@ -30,14 +32,26 @@ export default async function TicketsPage({
     priority: (sp.priority as TicketPriority) || undefined,
     type: (sp.type as TicketType) || undefined,
     q: sp.q || undefined,
+    organizationId: (session.isAgent && sp.org) || undefined,
     assignedToMe: session.isAgent && sp.assigned === "me",
     pendingForViewer: sp.pending === "me",
     viewerIsAgent: session.isAgent,
   };
 
+  // El staff puede filtrar por empresa; cargamos el catálogo de organizaciones.
+  let organizations: { id: string; name: string }[] = [];
+  if (session.isAgent) {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("organizations")
+      .select("id, name")
+      .order("name");
+    organizations = data ?? [];
+  }
+
   const tickets = await listTickets(filters, session.userId);
   const hasFilters = Boolean(
-    sp.status || sp.priority || sp.type || sp.q || sp.assigned || sp.pending,
+    sp.status || sp.priority || sp.type || sp.q || sp.assigned || sp.pending || sp.org,
   );
 
   return (
@@ -62,7 +76,7 @@ export default async function TicketsPage({
       </div>
 
       <div className="mt-6">
-        <FilterBar isAgent={session.isAgent} />
+        <FilterBar isAgent={session.isAgent} organizations={organizations} />
       </div>
 
       <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">

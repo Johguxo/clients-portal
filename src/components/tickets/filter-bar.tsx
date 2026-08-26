@@ -14,7 +14,13 @@ import { cn } from "@/lib/cn";
 const selectClass =
   "rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground outline-none transition focus:border-primary";
 
-export function FilterBar({ isAgent }: { isAgent: boolean }) {
+export function FilterBar({
+  isAgent,
+  organizations = [],
+}: {
+  isAgent: boolean;
+  organizations?: { id: string; name: string }[];
+}) {
   const router = useRouter();
   const params = useSearchParams();
   const [pending, startTransition] = useTransition();
@@ -48,6 +54,21 @@ export function FilterBar({ isAgent }: { isAgent: boolean }) {
         placeholder="Buscar por asunto…"
         className={cn(selectClass, "w-56 max-w-full")}
       />
+
+      {isAgent && organizations.length > 0 && (
+        <select
+          value={params.get("org") ?? ""}
+          onChange={(e) => setParam("org", e.target.value)}
+          className={selectClass}
+        >
+          <option value="">Todas las empresas</option>
+          {organizations.map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.name}
+            </option>
+          ))}
+        </select>
+      )}
 
       <select
         value={params.get("status") ?? ""}
