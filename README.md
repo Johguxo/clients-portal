@@ -6,6 +6,24 @@ estado de sus incidencias y solicitudes con total transparencia.
 
 > Prueba técnica — Product Engineer / Full Stack · Galileo Studio.
 
+<!-- DEMO -->
+**Demo en vivo:** _(se añade el enlace tras el despliegue)_ · Credenciales de
+demo más abajo.
+
+## Funcionalidades
+
+- **Portal multi-tenant** con aislamiento de datos entre empresas a nivel de base
+  de datos (RLS): cada cliente solo ve lo suyo.
+- **Tickets** con tipo (incidencia / duda / solicitud), prioridad y estado
+  (abierto · en progreso · resuelto · cerrado).
+- **Hilo de conversación** por ticket y **timeline de actividad** automático.
+- **Indicador "de quién es la pelota"** derivado del último mensaje: el staff ve
+  *"Sin responder"*, el cliente *"Esperando tu respuesta"*.
+- **Dos roles:** cliente (crea, comenta, sigue) y agente/staff (ve todas las
+  empresas, gestiona estado/prioridad, se asigna trabajo).
+- **Listado con filtros** (estado, prioridad, tipo, empresa, "pendiente de mí") y
+  búsqueda, más un **dashboard** por rol.
+
 ## Stack
 
 - **App full-stack:** Next.js 16 (App Router) + React 19 + Tailwind CSS 4.
@@ -15,6 +33,24 @@ estado de sus incidencias y solicitudes con total transparencia.
   aislamiento multi-tenant a nivel de base de datos.
 - **Estructura:** un único repo con la app Next.js en la raíz y la definición de
   la base de datos en `supabase/` (migraciones, RLS y seed).
+
+## Estructura
+
+```
+.
+├── src/
+│   ├── app/                 # Rutas Next.js (App Router)
+│   │   ├── login/           #   autenticación
+│   │   └── (app)/           #   portal protegido (dashboard, tickets)
+│   │       └── tickets/     #   listado, detalle, nuevo + Server Actions
+│   ├── components/          # UI (marca, badges, tickets, dashboard)
+│   └── lib/                 # dominio, acceso a datos, helpers Supabase
+├── supabase/
+│   ├── migrations/          # esquema + RLS + triggers
+│   └── seed.sql             # datos y usuarios de demo
+├── DECISIONS.md             # documento de decisiones
+└── DESIGN.md                # sistema de diseño (branding Galileo)
+```
 
 ## Puesta en marcha (local)
 
@@ -38,6 +74,10 @@ pnpm db:reset
 # 5. Arrancar la app
 pnpm dev             # http://localhost:3000
 ```
+
+> El seed crea el esquema, las políticas RLS y los datos de demo (incluidos los
+> usuarios de auth con su contraseña), así que tras `pnpm db:reset` puedes entrar
+> directamente con cualquiera de las cuentas de abajo.
 
 ## Usuarios de demo
 
