@@ -4,6 +4,14 @@ Portal privado de cliente para consultoras tecnológicas. Sustituye el caos de
 email / llamadas / WhatsApp por un espacio ordenado donde cada cliente ve el
 estado de sus incidencias y solicitudes con total transparencia.
 
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=flat&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-19-20232A?style=flat&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Auth_+_RLS-3ECF8E?style=flat&logo=supabase&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Row_Level_Security-4169E1?style=flat&logo=postgresql&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-deploy-000000?style=flat&logo=vercel&logoColor=white)
+
 > Prueba técnica — Product Engineer / Full Stack · Galileo Studio.
 
 <!-- DEMO -->
