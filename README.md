@@ -7,8 +7,8 @@ estado de sus incidencias y solicitudes con total transparencia.
 > Prueba técnica — Product Engineer / Full Stack · Galileo Studio.
 
 <!-- DEMO -->
-**Demo en vivo:** _(se añade el enlace tras el despliegue)_ · Credenciales de
-demo más abajo.
+**▶︎ Demo en vivo: https://orbita-bice-alpha.vercel.app** · entra con cualquiera
+de las [cuentas de demo](#usuarios-de-demo) (contraseña `demo1234`).
 
 ## Funcionalidades
 
