@@ -45,8 +45,13 @@ Prioricé la **columna vertebral que sostiene esa transparencia** de punta a pun
 - **Detección de duplicados** (*"cosas que ya nos habían pedido"*). Requiere
   búsqueda/similitud con criterio; el histórico visible ya mitiga el problema. → V2.
 - **Adjuntos.** Alto valor pero no imprescindible para demostrar el flujo. → V2.
-- **Panel de administración** (gestionar organizaciones y usuarios desde la UI).
-  Hoy se hace por seed/base de datos. → V2.
+- **Panel de administración y rol `admin`.** Hoy solo hay dos roles (`client` /
+  `agent`) y los agentes son homogéneos. Crear empresas y usuarios se hace por
+  seed/base de datos (un trigger genera el perfil a partir de los metadatos del
+  usuario de auth). Un back-office con rol `admin` para dar de alta empresas e
+  invitar usuarios es una feature entera —crear usuarios desde la UI exige la
+  `service_role` con cuidado de seguridad—, así que queda fuera de V1 por criterio
+  de alcance. → V2 (es el primer punto de "cómo continuaría").
 - **Numeración de ticket por empresa.** Es global (`#1, #2…` compartido). Que cada
   empresa tenga su propia secuencia limpia exige un contador por tenant con
   cuidado de concurrencia; no aporta al flujo principal. → V2, decisión consciente.
